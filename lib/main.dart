@@ -5,6 +5,7 @@ import 'package:like_comment/view/home/home_view.dart';
 import 'package:like_comment/view/login/login_view.dart';
 import 'package:like_comment/view/post/post_view.dart';
 import 'package:like_comment/view/registration/registration_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: HomeView.routeName,
+      initialRoute: LoginView.routeName,
       routes: route,
     );
   }

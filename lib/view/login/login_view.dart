@@ -9,10 +9,12 @@ import 'package:like_comment/common_widget/common_text.dart';
 import 'package:like_comment/common_widget/common_textfield.dart';
 import 'package:like_comment/data_base_helper/data_base_helper.dart';
 import 'package:like_comment/model/registration_model.dart';
+import 'package:like_comment/view/home/home_cubit.dart';
 import 'package:like_comment/view/home/home_view.dart';
 import 'package:like_comment/view/login/login_cubit.dart';
 import 'package:like_comment/view/login/login_state.dart';
 import 'package:like_comment/view/registration/registration_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -43,12 +45,11 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot<Map<String, dynamic>>> doc = FirebaseFirestore.instance.collection('Registration').snapshots();
     return SafeArea(child: BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         return Scaffold(
           body: StreamBuilder(
-            stream: doc,
+            stream: FirebaseFirestore.instance.collection('Registration').snapshots(),
             builder: (context, snapshot) {
               return Form(
                 key: state.formKey,
@@ -110,14 +111,16 @@ class _LoginViewState extends State<LoginView> {
                           child: Center(
                             child: CommonMaterialButton(
                               text: 'Sign in',
-                              onPressed: () {
-
+                              onPressed: () async{
                                 if (state.formKey.currentState!.validate()) {
                                   var f = FirebaseFirestore.instance.collection('Registration')
                                       .where("email", isEqualTo: state.emailController.text.toString())
                                       .where("password", isEqualTo: state.passwordController.text.toString())
-                                      .snapshots().listen((data) => data.docs.forEach((element) {
-                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeView()));
+                                      .snapshots().listen((data) => data.docs.forEach((element) async{
+                                          SharedPreferences preferences = await SharedPreferences.getInstance();
+                                          preferences.setString('registerId', element.get("registrationId"));
+                                          print('registration id when user login >>>>>>>>>>> ${element.get("registrationId")}');
+                                          Navigator.pushNamed(context, HomeView.routeName, arguments: element.get("registrationId"));
                                   }));
                                   print('runttype -->>> ${f.runtimeType}');
 

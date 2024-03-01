@@ -9,6 +9,8 @@ class LoginCubit extends Cubit<LoginState>{
     emit(state.copyWith(isPasswordVisible: isPasswordVisible));
   }
 
-
+  // void registrationIdChange({getRegistrationId}){
+  //   emit(state.copyWith(getRegistrationId: getRegistrationId))
+  // }
 
 }

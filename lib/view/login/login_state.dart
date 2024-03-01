@@ -9,6 +9,7 @@ class LoginState extends Equatable {
   final GlobalKey<FormState> formKey;
   final String validatorMessage;
   final String checkEmailIsValid;
+  final String getRegistrationId;
 
   const LoginState(
       {this.isPasswordVisible = false,
@@ -16,7 +17,8 @@ class LoginState extends Equatable {
         required this.passwordController,
         required this.formKey,
         this.validatorMessage = "field required",
-        this.checkEmailIsValid = ""
+        this.checkEmailIsValid = "",
+        this.getRegistrationId = ""
       });
 
   @override
@@ -26,7 +28,8 @@ class LoginState extends Equatable {
     passwordController,
     formKey,
     validatorMessage,
-    checkEmailIsValid
+    checkEmailIsValid,
+    getRegistrationId
   ];
 
   LoginState copyWith({
@@ -35,7 +38,8 @@ class LoginState extends Equatable {
     TextEditingController? passwordController,
     GlobalKey<FormState>? formKey,
     String? validatorMessage,
-    String? checkEmailIsValid
+    String? checkEmailIsValid,
+    String? getRegistrationId
   }) {
     return LoginState(
         isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
@@ -43,7 +47,8 @@ class LoginState extends Equatable {
         passwordController: passwordController ?? this.passwordController,
         formKey: formKey ?? this.formKey,
         validatorMessage: validatorMessage ?? this.validatorMessage,
-        checkEmailIsValid: checkEmailIsValid ?? this.checkEmailIsValid
+        checkEmailIsValid: checkEmailIsValid ?? this.checkEmailIsValid,
+        getRegistrationId: getRegistrationId ?? this.getRegistrationId
     );
   }
 }

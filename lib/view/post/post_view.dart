@@ -21,11 +21,13 @@ class PostView extends StatefulWidget {
   static const String routeName = "/post_view";
 
   static Widget builder(BuildContext context) {
+    // String args = ModalRoute.of(context)?.settings.arguments as String;
     return BlocProvider(
       create: (context) => PostCubit(PostState(
         imageFile: XFile(""),
         descriptionController: TextEditingController(text: ''),
         locationController: TextEditingController(text: ''),
+        // argument: args
       )),
       child: const PostView(),
     );
@@ -142,7 +144,7 @@ class _PostViewState extends State<PostView> {
                                 SharedPreferences preferences = await SharedPreferences.getInstance();
                                 dbInstance.insertPostData(
                                     postModel: PostModel(
-                                        registrationId: preferences.getString('registrationKey'),
+                                        registrationId: preferences.getString("registerId"),
                                         imageUrl: state.imageURL,
                                         description:state.descriptionController.text,
                                         location: state.locationController.text));
