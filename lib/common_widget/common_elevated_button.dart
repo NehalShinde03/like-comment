@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:like_comment/common_attribute/common_value.dart';
 import 'package:like_comment/common_widget/common_text.dart';
 
-class CommonMaterialButton extends StatelessWidget {
+class CommonElevatedButton extends StatelessWidget {
 
   final Color buttonColor;
   final Color textColor;
@@ -10,7 +10,7 @@ class CommonMaterialButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
 
-  const CommonMaterialButton({
+  const CommonElevatedButton({
     super.key,
     this.buttonColor = Colors.teal,
     this.text = "",
@@ -20,12 +20,14 @@ class CommonMaterialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
+    return ElevatedButton(
       onPressed: onPressed,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20)
+      style: ElevatedButton.styleFrom(
+        backgroundColor: buttonColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)
+        ),
       ),
-      color: buttonColor,
       child: CommonText(text: text, textColor: textColor, fontWeight: TextWeight.bold),
     );
   }

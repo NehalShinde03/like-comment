@@ -1,16 +1,30 @@
 class CommentModel{
-  final String? postId;
-  final String? registrationId;
 
-  const CommentModel({this.postId = "", this.registrationId = ""});
+  final String commentId;
+  final String userId;
+  final String postId;
+  final String comment;
+
+  CommentModel({
+    this.commentId = "",
+    this.userId = "",
+    this.postId = "",
+    this.comment=""
+  });
 
   factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(
+      commentId: json['commentId'],
+      userId: json['userId'],
       postId: json['postId'],
-      registrationId: json['registrationId']
+    comment: json['comment']
   );
 
+
   Map<String, dynamic> toJson() => <String, dynamic>{
-    "postId":postId,
-    "registrationId":registrationId
+    'commentId':commentId,
+    'userId':userId,
+    'postId':postId,
+    'comment':comment
   };
+
 }

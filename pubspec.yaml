@@ -46,6 +46,7 @@ dependencies:
   permission_handler: ^11.3.0
   shared_preferences: ^2.2.2
   firebase_database: ^10.4.7
+  motion_toast: ^2.8.0
 
 dev_dependencies:
   flutter_test:

@@ -1,24 +1,32 @@
-class RegistrationModel{
+class RegistrationModel {
 
-  final String? registrationId;
-  final String name;
-  final String email;
-  final String password;
+  late final String? userId;
+  late final String userName;
+  late final String userEmail;
+  late final String userPassword;
+  late final String userConfirmPassword;
 
-  RegistrationModel({required this.name, required this.email, required this.password, this.registrationId});
+  RegistrationModel({
+      this.userId = "",
+      required this.userName,
+      required this.userEmail,
+      required this.userPassword,
+      required this.userConfirmPassword});
 
   factory RegistrationModel.fromJson(Map<String, dynamic> json) => RegistrationModel(
-    registrationId: json['registrationId'],
-    name: json['name'],
-    email: json['email'],
-    password: json['password'],
+      userId: json['userId'],
+      userName: json['userName'],
+      userEmail: json['userEmail'],
+      userPassword: json['userPassword'],
+      userConfirmPassword: json['userConfirmPassword'],
   );
 
   Map<String, dynamic> toJson() => {
-    'registrationId':registrationId,
-    'name':name,
-    'email':email,
-    'password':password
+    'userId' : userId,
+    'userName' : userName,
+    'userEmail' : userEmail,
+    'userPassword' : userPassword,
+    'userConfirmPassword' : userConfirmPassword
   };
 
 }

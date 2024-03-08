@@ -15,15 +15,15 @@ class CommonTextField extends StatelessWidget {
 
   const CommonTextField(
       {super.key,
-      this.hintText = "",
-      this.prefixIcon,
-      this.suffixIcon,
-      this.obscureText,
-      this.onTap,
-      this.controller,
-      this.validator,
-      this.labelText = "",
-      this.onChanged,
+        this.hintText = "",
+        this.prefixIcon,
+        this.suffixIcon,
+        this.obscureText,
+        this.onTap,
+        this.controller,
+        this.validator,
+        this.labelText = "",
+        this.onChanged,
         this.maxLine = 1,
         this.iconColor
       });
@@ -39,9 +39,14 @@ class CommonTextField extends StatelessWidget {
       onChanged: onChanged,
       maxLines: maxLine,
       decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(color: Colors.grey),
+          ),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-          hintText: hintText,
-          //labelText: labelText,
+          // hintText: hintText,
+          labelText: labelText,
+          labelStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w400),
           prefixIcon: Icon(prefixIcon, color: iconColor),
           suffixIcon: GestureDetector(
             onTap: onTap,

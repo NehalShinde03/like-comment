@@ -3,52 +3,49 @@ import 'package:flutter/cupertino.dart';
 
 class LoginState extends Equatable {
 
-  final bool isPasswordVisible;
   final TextEditingController emailController;
-  final TextEditingController passwordController;
+  final TextEditingController passWordController;
   final GlobalKey<FormState> formKey;
-  final String validatorMessage;
-  final String checkEmailIsValid;
-  final String getRegistrationId;
+  final bool isPasswordVisible;
+
+  //final int sizeOfCredentialMatches;
+  final String registerUserId;
+
 
   const LoginState(
-      {this.isPasswordVisible = false,
-        required this.emailController,
-        required this.passwordController,
-        required this.formKey,
-        this.validatorMessage = "field required",
-        this.checkEmailIsValid = "",
-        this.getRegistrationId = ""
+      {required this.emailController,
+      required this.passWordController,
+      required this.formKey,
+      this.isPasswordVisible = false,
+      this.registerUserId = ""
+      //this.sizeOfCredentialMatches = 0,
       });
 
   @override
   List<Object?> get props => [
-    isPasswordVisible,
-    emailController,
-    passwordController,
-    formKey,
-    validatorMessage,
-    checkEmailIsValid,
-    getRegistrationId
+        emailController,
+        passWordController,
+        formKey,
+        isPasswordVisible,
+        registerUserId
+        // sizeOfCredentialMatches
   ];
 
-  LoginState copyWith({
-    bool? isPasswordVisible,
-    TextEditingController? emailController,
-    TextEditingController? passwordController,
-    GlobalKey<FormState>? formKey,
-    String? validatorMessage,
-    String? checkEmailIsValid,
-    String? getRegistrationId
-  }) {
+  LoginState copyWith(
+      {TextEditingController? emailController,
+      TextEditingController? passWordController,
+      GlobalKey<FormState>? formKey,
+      bool? isPasswordVisible,
+      int? sizeOfCredentialMatches,
+      String? registerUserId
+      }) {
     return LoginState(
-        isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
         emailController: emailController ?? this.emailController,
-        passwordController: passwordController ?? this.passwordController,
+        passWordController: passWordController ?? this.passWordController,
         formKey: formKey ?? this.formKey,
-        validatorMessage: validatorMessage ?? this.validatorMessage,
-        checkEmailIsValid: checkEmailIsValid ?? this.checkEmailIsValid,
-        getRegistrationId: getRegistrationId ?? this.getRegistrationId
+        isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
+        registerUserId: registerUserId ?? this.registerUserId
+      // sizeOfCredentialMatches: sizeOfCredentialMatches ?? this.sizeOfCredentialMatches
     );
   }
 }

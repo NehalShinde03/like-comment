@@ -1,23 +1,26 @@
-class LikeModel {
-  final String? likeId;
-  final String? postId;
-  final String? registrationId;
+class LikeModal{
 
-  const LikeModel({
-    this.likeId,
+  final String likeId;
+  final String userId;
+  final String postId;
+
+  LikeModal({
+    this.likeId = "",
+    this.userId = "",
     this.postId = "",
-    this.registrationId = "",
   });
 
-  factory LikeModel.fromJson(Map<String, dynamic> json) => LikeModel(
-      likeId: json['likeId'],
-      postId: json['postId'],
-      registrationId: json['registrationId'],
+  factory LikeModal.fromJson(Map<String, dynamic> json) => LikeModal(
+    likeId: json['likeId'],
+    userId: json['userId'],
+    postId: json['postId']
   );
 
+
   Map<String, dynamic> toJson() => <String, dynamic>{
-        "likeId": likeId,
-        "postId": postId,
-        "registrationId": registrationId,
-      };
+    'likeId':likeId,
+    'userId':userId,
+    'postId':postId
+  };
+
 }

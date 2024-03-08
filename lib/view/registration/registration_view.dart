@@ -1,29 +1,33 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:like_comment/common_attribute/common_value.dart';
-import 'package:like_comment/common_widget/common_material_button.dart';
+import 'package:like_comment/common_widget/common_elevated_button.dart';
 import 'package:like_comment/common_widget/common_text.dart';
 import 'package:like_comment/common_widget/common_textfield.dart';
 import 'package:like_comment/data_base_helper/data_base_helper.dart';
 import 'package:like_comment/model/registration_model.dart';
+import 'package:like_comment/view/login/login_view.dart';
 import 'package:like_comment/view/registration/registration_cubit.dart';
 import 'package:like_comment/view/registration/registration_state.dart';
-
 class RegistrationView extends StatefulWidget {
   const RegistrationView({super.key});
 
-  static const String routeName = "/registration_view";
+  static const String routeName = '/registration_view';
 
   static Widget builder(BuildContext context) {
     return BlocProvider(
-        create: (context) => RegistrationCubit(RegistrationState(
-          nameController: TextEditingController(),
-          emailController: TextEditingController(),
-          passwordController: TextEditingController(),
-          formKey: GlobalKey()
-        )),
-        child: const RegistrationView(),
+      create: (context) =>
+          RegistrationCubit(
+              RegistrationState(
+                nameController: TextEditingController(),
+                emailController: TextEditingController(),
+                passwordController: TextEditingController(),
+                confirmPasswordController: TextEditingController(),
+                formKey: GlobalKey(),
+              )),
+      child: const RegistrationView(),
     );
   }
 
@@ -37,106 +41,144 @@ class _RegistrationViewState extends State<RegistrationView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: BlocBuilder<RegistrationCubit, RegistrationState>(
-          builder: (context, state) {
-            return Scaffold(
-              body: Form(
+    return SafeArea(child: BlocBuilder<RegistrationCubit, RegistrationState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: Center(
+            child: SingleChildScrollView(
+              child: Form(
                 key: state.formKey,
-                child: Center(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
 
-                        /// registration heading
-                        Padding(
-                          padding: EdgeInsetsDirectional.symmetric(
-                              vertical: Spacing.xxxLarge,
-                              horizontal: Spacing.small * 2),
-                          child: CommonText(
-                            text: 'Signup',
-                            fontSize: TextSize.largeHHeading,
-                            fontWeight: TextWeight.bold,
-                          ),
-                        ),
-
-
-                        ///enter name
-                        Padding(
-                          padding: PaddingValue.medium,
-                          child: CommonTextField(
-                            controller: state.nameController,
-                            validator: (val) => val!.isEmpty ? state.validatorMessage : null,
-                            hintText: 'Enter name',
-                            prefixIcon: Icons.person_2_outlined,
-                          ),
-                        ),
-
-
-                        ///enter email
-                        Padding(
-                          padding: PaddingValue.medium,
-                          child: CommonTextField(
-                            controller: state.emailController,
-                            validator: (val) => val!.isEmpty ? state.validatorMessage : null,
-                            hintText: 'Enter email',
-                            //labelText: state.checkEmailIsValid,
-                            onChanged: (val){
-                              //registrationCubit.emailValidation(checkEmailIsValid: val.toString());
-                            },
-                            prefixIcon: Icons.email_outlined,
-                          ),
-                        ),
-
-
-                        ///enter password
-                        Padding(
-                          padding: PaddingValue.medium,
-                          child: CommonTextField(
-                            controller: state.passwordController,
-                            validator: (val) => val!.isEmpty ? state.validatorMessage : null,
-                            hintText: 'Enter password',
-                            prefixIcon: Icons.password,
-                            suffixIcon: state.isPasswordVisible
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            onTap: () => registrationCubit.tapOnEye(isPasswordVisible: !(state.isPasswordVisible)),
-                            obscureText: !(state.isPasswordVisible),
-                          ),
-                        ),
-
-                        /// registration button
-                        Padding(
-                          padding: PaddingValue.large,
-                          child: Center(
-                            child: CommonMaterialButton(
-                              text: 'Signup',
-                              onPressed: () {
-                                if(state.formKey.currentState!.validate()){
-                                  state.emailController.text.contains('@gmail.com')
-                                    ? DataBaseHelper().insertRegistrationData(registrationModel: RegistrationModel(
-                                      name: state.nameController.text,
-                                      email: state.emailController.text,
-                                      password: state.passwordController.text
-                                   ))
-                                     : print('in valide');
-                                  Navigator.pop(context);
-                                }
-                              }, //=> Navigator.pop(context),
-                            ),
-                          ),
-                        )
-
-
-                      ],
+                    const Padding(
+                      padding: PaddingValue.xLarge,
+                      child: CommonText(
+                        text: 'Sign up',
+                        fontSize: Spacing.xxLarge,
+                        fontWeight: TextWeight.bold,
+                      ),
                     ),
-                  ),
+
+                    Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: Spacing.large, vertical: Spacing.normal),
+                      child: CommonTextField(
+                        controller: state.nameController,
+                        prefixIcon: Icons.person,
+                        labelText: 'Enter Name',
+                        validator: (val) => val!.isEmpty ? 'field required' : null,
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: Spacing.large - 2, vertical: Spacing.normal),
+                      child: CommonTextField(
+                        controller: state.emailController,
+                        prefixIcon: Icons.email,
+                        labelText: 'Enter Email',
+                        validator: (val) => val!.isEmpty ? 'field required' : null,
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: Spacing.large - 2, vertical: Spacing.normal),
+                      child: CommonTextField(
+                        controller: state.passwordController,
+                        prefixIcon: Icons.lock,
+                        suffixIcon: state.isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                        labelText: 'Enter Password',
+                        validator: (val) => val!.isEmpty ? 'field required' : null,
+                        onTap: () => registrationCubit.isPasswordVisible(isPasswordVisible: !state.isPasswordVisible),
+                        obscureText: !(state.isPasswordVisible),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: Spacing.large - 2, vertical: Spacing.normal),
+                      child: CommonTextField(
+                        controller: state.confirmPasswordController,
+                        prefixIcon: Icons.lock,
+                        suffixIcon: state.isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                        labelText: 'Enter Confirm Password',
+                        validator: (val) => val!.isEmpty ? 'field required' : null,
+                        onTap: () => registrationCubit.isConfirmPasswordVisible(isConfirmPasswordVisible: !state.isConfirmPasswordVisible),
+                        obscureText: !(state.isConfirmPasswordVisible),
+                        onChanged: (val){
+                          registrationCubit.isPasswordNConfirmPasswordSame(
+                              password: state.passwordController.text,
+                              confirmPassword: state.confirmPasswordController.text
+                          );
+                        },
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(horizontal: Spacing.xLarge),
+                      child: CommonText(text: state.passwordValidationMessage, textColor: state.color,),
+                    ),
+
+                    const Gap(RadiusValue.xxLarge),
+                    Center(
+                      child: CommonElevatedButton(
+                        buttonColor: Colors.teal,
+                        text: 'Sign-up',
+                        textColor: Colors.white,
+                        onPressed: state.isPasswordNConfirmPasswordSame
+                            ?() {
+                               if (state.formKey.currentState!.validate()){
+                                  DataBaseHelper.instance.insertNewUser(
+                                    registrationModel: RegistrationModel(
+                                      userName: state.nameController.text,
+                                      userEmail: state.emailController.text,
+                                      userPassword: state.passwordController.text,
+                                      userConfirmPassword: state.confirmPasswordController.text)
+                                    );
+                                  Navigator.pushNamed(context, LoginView.routeName);
+                               }
+                              }
+                            : null,
+                      ),
+                    ),
+
+                    ///already account
+                    const Gap(Spacing.xxxLarge * 1),
+                    Center(
+                      child: RichText(
+                          text: TextSpan(
+                            text: 'Already have an account?',
+                            style: const TextStyle(
+                                fontWeight: TextWeight.regular,
+                                fontSize: TextSize.title,
+                                color: Colors.grey
+                            ),
+                            children: [
+                              TextSpan(
+                                recognizer: TapGestureRecognizer()..onTap=() => Navigator.pushNamed(context, LoginView.routeName),
+                                text: '\tSign in',
+                                style: const TextStyle(
+                                    fontWeight: TextWeight.medium,
+                                    fontSize: TextSize.title - 1,
+                                    color: Colors.teal
+                                ),
+                              )
+                            ]
+                          )
+                      ),
+                    )
+
+                  ],
                 ),
               ),
-            );
-          },
-        ));
+            ),
+          ),
+        );
+      },
+    ));
   }
 }

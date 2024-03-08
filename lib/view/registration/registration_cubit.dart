@@ -1,20 +1,28 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:like_comment/common_attribute/common_color.dart';
 import 'package:like_comment/view/registration/registration_state.dart';
 
 class RegistrationCubit extends Cubit<RegistrationState>{
   RegistrationCubit(super.initialState);
 
-  ///tap on eye for password
-  void tapOnEye({isPasswordVisible}){
+  void isPasswordVisible({isPasswordVisible}){
     emit(state.copyWith(isPasswordVisible: isPasswordVisible));
   }
 
-  void emailValidation({checkEmailIsValid}){
-    String emailValidated = "";
-    checkEmailIsValid.toString().contains('@gmail.com')
-    ? emailValidated = "correct email"
-    : emailValidated = "inCorrect email";
-    emit(state.copyWith(checkEmailIsValid: emailValidated));
+  void isConfirmPasswordVisible({isConfirmPasswordVisible}){
+    emit(state.copyWith(isConfirmPasswordVisible: isConfirmPasswordVisible));
   }
+
+  void isPasswordNConfirmPasswordSame({password, confirmPassword}){
+    if(password.toString().isEmpty || confirmPassword.toString().isEmpty){
+      emit(state.copyWith(passwordValidationMessage: "", color: CommonColor.white));
+    }
+    else if(password == confirmPassword) {
+      emit(state.copyWith(passwordValidationMessage: "Password is Match", color: CommonColor.green, isPasswordNConfirmPasswordSame: true));
+    }else{
+      emit(state.copyWith(passwordValidationMessage: "Password Doesn't Match", color: CommonColor.red, isPasswordNConfirmPasswordSame: false));
+    }
+  }
+
 
 }
